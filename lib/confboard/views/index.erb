@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>confboard</title>
+  <link rel="stylesheet" href="<%= root %>css/master.css" type="text/css" media="screen" charset="utf-8">
+
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-26777299-7']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+  </script>
+</head>
+<body>
+  <div id="error">oops</div>
+
+  <div class="knit">
+    <div class="header">
+      <img id="logo" src="<%= root %>img/logo.gif">
+      <h1>confboard</h1>
+    </div>
+  </div>
+
+  <div id="stringfinder" class="control">
+    <input type="search">
+    <div></div>
+  </div>
+
+  <div class="horizon">
+    <div class="spinner"></div>
+  </div>
+  <div id="content"></div>
+  <div id="trafficfund"></div>
+
+  <script src="<%= root %>js/lib/jquery.js" type="text/javascript" charset="utf-8"></script>
+  <script src="<%= root %>js/lib/mustache.js" type="text/javascript" charset="utf-8"></script>
+  <script src="<%= root %>js/lib/jquery.uitablefilter.js" type="text/javascript" charset="utf-8"></script>
+  <script src="<%= root %>js/lib/jquery.scrollintoview.js" type="text/javascript" charset="utf-8"></script>
+  <script src="<%= root %>js/src/finn.up.confboard.js" type="text/javascript" charset="utf-8"></script>
+  <script src="<%= root %>js/src/finn.up.stringfinder.js" type="text/javascript" charset="utf-8"></script>
+  <script src="http://innsikt.finn.no/feedback/js/lib/finn/up-trafficfund/finn.up.trafficfund.js" type="text/javascript" charset="utf-8"></script>
+
+  <script type="text/x-mustache-template" name="stringList">
+  <ul class="stringList">
+    {{#strings}}
+        <li data-path="{{path}}">{{name}}</li>
+    {{/strings}}
+  </ul>
+  </script>
+
+  <script type="text/x-mustache-template" name="propertiesTable">
+    <h2 id="current-file">{{name}}</h2>
+
+    <table class="properties-table">
+      <thead>
+        <tr>
+          <th>
+            Key
+            <input type="search" id="filter">
+          </th>
+          {{#files}}
+            <th class="file">{{name}}</th>
+          {{/files}}
+        </tr>
+      </thead>
+
+      <tbody>
+        {{#keys}}
+        <tr class={{class}}>
+          <th>{{name}}</th>
+          {{#files}}
+            <td class="value">{{value}}</td>
+          {{/files}}
+        </tr>
+        {{/keys}}
+      </tbody>
+    </table>
+  </script>
+
+  <script>
+    $(document).ready(function() {
+      finn.up.ConfBoard.templates.stringList = $("script[name='stringList']").html();
+      finn.up.ConfBoard.templates.propertiesTable = $("script[name='propertiesTable']").html();
+
+      confboard = new finn.up.ConfBoard();
+      confboard.init();
+
+      new finn.up.TrafficFund().render(document.getElementById('trafficfund'))
+    });
+  </script>
+</body>
+</html>
